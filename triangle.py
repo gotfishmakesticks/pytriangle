@@ -7,18 +7,29 @@ root.resizable = False
 f = tk.Frame()
 
 def get_res():
+    if ent_1.get() == '' or ent_2.get() == '' or ent_3.get() == '':
+        messagebox.showinfo('Ошибка', 'Вы не заполнили все поля ввода')
+        lbl_res['text'] = resc + 'Не все поля были заполнены'
+        return
     try:
+
         n1 = float(ent_1.get())
         n2 = float(ent_2.get())
         n3 = float(ent_3.get())
 
         if n1 < 0 or n2 < 0 or n3 < 0:
             messagebox.showinfo('Ошибка', 'Вы ввели отрицательные значения в поля ввода')
-            lbl_res['text'] = resc + 'Ошибка в обработке введённых значений'
+            lbl_res['text'] = resc + 'Стороны треугольника не могут быть отрицательными'
+            return
+
+        if n1 == 0 or n2 == 0 or n3 == 0:
+            messagebox.showinfo('Ошибка', 'Вы ввели одно или несколько нулевых значений')
+            lbl_res['text'] = resc + 'Стороны треугольника не могут быть нулевыми'
             return
 
         if n1 > n2 + n3 or n2 > n1 + n3 or n3 > n1 + n2:
             messagebox.showinfo('Ошибка', 'У одной из сторон длина больше, чем у суммы двух других')
+            lbl_res['text'] = resc + 'Треугольник не существует'
             return
 
         if n1 == n2 == n3:
@@ -29,9 +40,11 @@ def get_res():
             return
         else:
             lbl_res['text'] = resc + 'Треугольник разносторонний'
+            return
     except:
         messagebox.showinfo('Ошибка', 'Вы ввели недопустимые символы в поля ввода')
         lbl_res['text'] = resc + 'Ошибка в обработке введённых значений'
+        return
 
 btn = tk.Button(master=f, text='Вычислить', command=get_res)
 
